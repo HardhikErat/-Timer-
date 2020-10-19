@@ -113,3 +113,36 @@ function setCircleDasharray() {
     .getElementById("base-timer-path-remaining")
     .setAttribute("stroke-dasharray", circleDasharray);
 }
+
+
+function setClock() {
+	const today = new Date();
+	const hour = today.getHours();
+	const minute = today.getMinutes();
+	const second = today.getSeconds();
+
+	document.querySelector(".clock-alt__hours").innerHTML =
+		hour.toString().length === 1 ? "0" + hour : hour;
+	document.querySelector(".clock-alt__minutes").innerHTML =
+		minute.toString().length === 1 ? "0" + minute : minute;
+	document.querySelector(".clock-alt__seconds").innerHTML =
+		second.toString().length === 1 ? "0" + second : second;
+
+	// Set rotation angles angles
+	const hourRotation = (hour % 12) * (360 / 12) + minute * (360 / 12 / 60); // 360deg ÷ 12hours
+	const minuteRotation = minute * (360 / 60); // 360deg ÷ 60minutes
+	const secondRotation = second * (360 / 60); // 360deg ÷ 60seconds
+	document.querySelector(
+		".clock__hand.clock__hand--hours"
+	).style.transform = `rotate(${hourRotation}deg)`;
+	document.querySelector(
+		".clock__hand.clock__hand--minutes"
+	).style.transform = `rotate(${minuteRotation}deg)`;
+	document.querySelector(
+		".clock__hand.clock__hand--seconds"
+	).style.transform = `rotate(${secondRotation}deg)`;
+
+	setTimeout(setClock, 1000);
+}
+
+window.onload = setClock();
